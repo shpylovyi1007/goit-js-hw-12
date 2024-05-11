@@ -27,7 +27,6 @@ form.addEventListener('submit', async event => {
             const scroll = () => {
                 const galleryItem = document.querySelector('.gallery-item');
                 const itemHeight = galleryItem.getBoundingClientRect().height;
-                console.log(galleryItem.getBoundingClientRect());
                 window.scrollBy({
                     top: itemHeight * 2,
                     behavior: 'smooth'
@@ -45,7 +44,7 @@ form.addEventListener('submit', async event => {
                         message: "We're sorry, there are no more posts to load"
                     });
                 }
-
+                btn.style.display = 'none';
                 loader.style.display = 'flex';
                 myPage += 1;
                 try {
