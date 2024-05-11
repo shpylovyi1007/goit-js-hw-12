@@ -18,6 +18,7 @@ form.addEventListener('submit', async event => {
     try {
         const response = await userGallery(userSearch, myPage);
         if (response.hits.length === 0) {
+            btn.style.display = 'none';
             iziToast.show({
                 message: 'Sorry, there are no images matching your search query. Please try again!'
             })
