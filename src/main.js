@@ -32,37 +32,37 @@ form.addEventListener('submit', async event => {
                     behavior: 'smooth'
                 });
             };
-            scroll();
-
             btn.style.display = 'flex';
-            const totalPages = Math.ceil(response.totalHits / perPage);
-
-            btn.addEventListener('click', async () => {
-                if (myPage > totalPages) {
-                    return iziToast.error({
-                        position: "topRight",
-                        message: "We're sorry, there are no more posts to load"
-                    });
-                }
-                btn.style.display = 'none';
-                loader.style.display = 'flex';
-                myPage += 1;
-                try {
-                    const response = await userGallery(userSearch, myPage);
-                    addImages(response)
-                    scroll();
-                } catch (error) {
-                    console.log(error);
-                } finally {
-                    loader.style.display = 'none';
-                }
-            });
+            scroll();
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
     } finally {
         loader.style.display = 'none';
     }
 });
 
-
+btn.addEventListener('click', async () => {
+    try {
+        const response = await userGallery(userSearch, myPage);
+        const totalPages = Math.ceil(response.totalHits / perPage);
+        if (myPage > totalPages) {
+            return iziToast.error({
+                position: "topRight",
+                message: "We're sorry, there are no more posts to load"
+            });
+        }
+        btn.style.display = 'none';
+        loader.style.display = 'flex';
+        myPage += 1;
+        if (response.totalHits <= 15) {
+            btn.style.display = 'none';
+        }
+        addImages(response)
+        scroll();
+    } catch (error) {
+        console.error(error);
+    } finally {
+        loader.style.display = 'none';
+    }
+});
