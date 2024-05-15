@@ -15,6 +15,7 @@ form.addEventListener('submit', async event => {
     event.preventDefault();
     userSearch = event.target.elements.search.value.trim();
     loader.style.display = 'flex';
+    btn.style.display = 'none';
     gallery.innerHTML = '';
 
     try {
@@ -56,6 +57,9 @@ btn.addEventListener('click', async () => {
         const response = await userGallery(userSearch, myPage);
         const totalPages = Math.ceil(response.totalHits / perPage);
 
+        loader.style.display = 'flex';
+        addImages(response)
+        scroll();
         if (myPage >= totalPages) {
             btn.style.display = 'none';
             return iziToast.error({
@@ -63,9 +67,6 @@ btn.addEventListener('click', async () => {
                 message: "We're sorry, there are no more posts to load"
             });
         }
-        loader.style.display = 'flex';
-        addImages(response)
-        scroll();
     } catch (error) {
         console.error(error);
     } finally {
